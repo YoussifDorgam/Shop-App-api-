@@ -68,7 +68,7 @@ class ShopAppcubit extends Cubit<ShopStatus> {
     SettingScreen(),
   ];
 
-  // method get home Data
+  // method get home Data k
   ShopHomeModel? shopHomeModel;
   IconData? FavIcon;
   Map<dynamic, dynamic> favorite = {};
