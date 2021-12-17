@@ -81,6 +81,7 @@ class ShopLodingGetHomProductDataStatus extends ShopStatus {}
 class ShopSuccessGetHomProductDataStatus extends ShopStatus
 {
 }
-class ShopErrorGetHomProductDataStatus extends ShopStatus {
-}
+class ShopErrorGetHomProductDataStatus extends ShopStatus {}
+////////////
+class ChangeIndicatorState extends ShopStatus {}
 

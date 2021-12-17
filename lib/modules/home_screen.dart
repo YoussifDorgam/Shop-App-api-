@@ -7,6 +7,9 @@ import 'package:shopapp/models/shop_category_model.dart';
 import 'package:shopapp/models/shopappmodel.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/cubit.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/status.dart';
+import 'package:shopapp/shared/constance/combonants.dart';
+
+import 'home_product_data_screean.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -106,7 +109,11 @@ Widget HomeData(ShopHomeModel? model, CategoryModel? categoryModel, context) =>
               children: List.generate(
                   model.data!.products.length,
                   (index) =>
-                      HomeProductsItems(model.data!.products[index], context)),
+                      InkWell(
+                          onTap: (){
+                            Navegato(context, ProductDetails(model.data!.products[index].id));
+                          },
+                          child: HomeProductsItems(model.data!.products[index], context))),
             ),
           ),
         ],
@@ -155,85 +162,82 @@ Widget BuildCategoriesItm(Data? data) => Padding(
       ),
     );
 
-Widget HomeProductsItems(ProductsData model, context) => InkWell(
-      onTap: () {},
-      child: Container(
-        color: Colors.white,
+Widget HomeProductsItems(ProductsData model, context) => Container(
+  color: Colors.white,
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Stack(
+        alignment: Alignment.bottomLeft,
+        children: [
+          Image(
+            image: NetworkImage('${model.image}'),
+            width: double.infinity,
+            height: 200.0,
+          ),
+          if (model.discount != 0)
+            Container(
+              color: Colors.red,
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: const Text(
+                'DISCOUNT',
+                style: TextStyle(color: Colors.white, fontSize: 10.0),
+              ),
+            )
+        ],
+      ),
+      Padding(
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              alignment: Alignment.bottomLeft,
+            Text(
+              '${model.name}',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  fontSize: 14.0, color: Colors.black, height: 1.0),
+            ),
+            Row(
               children: [
-                Image(
-                  image: NetworkImage('${model.image}'),
-                  width: double.infinity,
-                  height: 200.0,
+                Text(
+                  '${model.price}\$',
+                  style: const TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.deepOrange,
+                  ),
+                ),
+                const SizedBox(
+                  width: 5.0,
                 ),
                 if (model.discount != 0)
-                  Container(
-                    color: Colors.red,
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: const Text(
-                      'DISCOUNT',
-                      style: TextStyle(color: Colors.white, fontSize: 10.0),
-                    ),
-                  )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
                   Text(
-                    '${model.name}',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                    '${model.old_price}',
                     style: const TextStyle(
-                        fontSize: 14.0, color: Colors.black, height: 1.0),
+                      fontSize: 12.0,
+                      color: Colors.grey,
+                      height: 1.0,
+                      decoration: TextDecoration.lineThrough,
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        '${model.price}\$',
-                        style: const TextStyle(
-                          fontSize: 12.0,
-                          color: Colors.deepOrange,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 5.0,
-                      ),
-                      if (model.discount != 0)
-                        Text(
-                          '${model.old_price}',
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey,
-                            height: 1.0,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          print(model.id);
-                          ShopAppcubit.get(context).changeFavorites(model.id);
-                        },
-                        icon: Icon(
-                          ShopAppcubit.get(context).favorite[model.id] == true
-                              ? ShopAppcubit().FavIcon = Icons.favorite
-                              : ShopAppcubit().FavIcon = Icons.favorite_border,
-                          size: 18,
-                        ),
-                      ),
-                    ],
+                const Spacer(),
+                IconButton(
+                  onPressed: () {
+                    print(model.id);
+                    ShopAppcubit.get(context).changeFavorites(model.id);
+                  },
+                  icon: Icon(
+                    ShopAppcubit.get(context).favorite[model.id] == true
+                        ? ShopAppcubit().FavIcon = Icons.favorite
+                        : ShopAppcubit().FavIcon = Icons.favorite_border,
+                    size: 18,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
       ),
-    );
+    ],
+  ),
+);

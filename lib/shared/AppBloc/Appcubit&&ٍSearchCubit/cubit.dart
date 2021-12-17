@@ -235,10 +235,13 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       emit(ShopErrorGetFavouriteDataStatus());
     });
   }
+
+
   ProductDetailsModel? productDetailsModel;
-  void getProductData() {
+
+  void getProductData(String id) {
     emit(ShopLodingGetHomProductDataStatus());
-    Diohelper.getdata(url: 'products/', Token: token).then((value) {
+    Diohelper.getdata(url: PRODUCT+id, Token: token).then((value) {
       productDetailsModel = ProductDetailsModel.fromJson(value.data);
       print('Product Detail ' + productDetailsModel!.status.toString());
       emit(ShopSuccessGetHomProductDataStatus());
@@ -246,5 +249,11 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       emit(ShopErrorGetHomProductDataStatus());
       print(error.toString());
     });
+  }
+
+  int value = 0;
+  void changeVal(val){
+    value = val;
+    emit(ChangeIndicatorState());
   }
 }

@@ -12,6 +12,8 @@ import 'package:shopapp/shared/constance/cons.dart';
 import 'package:shopapp/shared/remote/catch.helper.dart';
 import 'package:shopapp/shared/remote/dio.helper.dart';
 
+import 'modules/home_product_data_screean.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
@@ -52,7 +54,7 @@ class MyApp extends StatelessWidget {
       providers:
       [
         BlocProvider(create:  (context) => ShopAppLogincubit()),
-        BlocProvider(create:  (context) => ShopAppcubit()..gethomedata()..GetCategoryModel()..getShopprofaileData()..getProductData()..GetFavData()),
+        BlocProvider(create:  (context) => ShopAppcubit()..gethomedata()..GetCategoryModel()..getShopprofaileData()..GetFavData()),
         BlocProvider(create:  (context) => ShopAppRegistercubit()),
       ],
       child: MaterialApp(
