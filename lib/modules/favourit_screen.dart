@@ -10,22 +10,19 @@ class FavouriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopAppcubit, ShopStatus>(
-      listener: (BuildContext context, state)
-      {
-
-      },
-      builder: (context,  state) {
+      listener: (BuildContext context, state) {},
+      builder: (context, state) {
         var cubit = ShopAppcubit.get(context);
         return ConditionalBuilder(
-          condition: state is ShopLodingGetFavouriteDataStatus ,
-          builder: (BuildContext context) =>  ListView.separated(
+          condition: state is !ShopLodingGetFavouriteDataStatus   ,
+          builder: (BuildContext context) => ListView.separated(
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) => buildFavoriteItem(
                   cubit.getFavouriteData!.data!.data[index], context),
               separatorBuilder: (context, index) => myDivider(),
               itemCount: cubit.getFavouriteData!.data!.data.length),
-          fallback: (BuildContext context) => const Center(child: CircularProgressIndicator()),
-
+          fallback: (BuildContext context) =>
+              const Center(child: CircularProgressIndicator()),
         );
       },
     );
@@ -47,7 +44,6 @@ Widget buildFavoriteItem(FavouriteData model, context) => Padding(
                     '${model.product!.image}',
                   ),
                   width: 120.0,
-
                   height: 120.0,
                 ),
                 if (model.product!.discount != 0)
@@ -78,7 +74,7 @@ Widget buildFavoriteItem(FavouriteData model, context) => Padding(
                   const Spacer(),
                   Row(
                     children: [
-                       Text(
+                      Text(
                         '${model.product!.price}',
                         style: const TextStyle(
                           fontSize: 12.0,
@@ -100,15 +96,18 @@ Widget buildFavoriteItem(FavouriteData model, context) => Padding(
                         ),
                       const Spacer(),
                       IconButton(
-                        onPressed: ()
-                        {
+                        onPressed: () {
                           print(model.id);
-                          ShopAppcubit.get(context).changeFavorites(model.product!.id);
+                          ShopAppcubit.get(context)
+                              .changeFavorites(model.product!.id);
                         },
                         icon: Icon(
-                          ShopAppcubit.get(context).favorite[model.product!.id] == true
+                          ShopAppcubit.get(context)
+                                      .favorite[model.product!.id] ==
+                                  true
                               ? ShopAppcubit().FavIcon = Icons.favorite
-                              : ShopAppcubit().FavIcon = Icons.favorite_border, size: 18,
+                              : ShopAppcubit().FavIcon = Icons.favorite_border,
+                          size: 18,
                         ),
                       ),
 

@@ -46,7 +46,7 @@ class Data {
 }
 
 class FavouriteData {
-  late int id;
+  int? id;
   Product? product;
   FavouriteData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       providers:
       [
         BlocProvider(create:  (context) => ShopAppLogincubit()),
-        BlocProvider(create:  (context) => ShopAppcubit()..gethomedata()..GetCategoryModel()..getShopprofaileData()..getProductData()),
+        BlocProvider(create:  (context) => ShopAppcubit()..gethomedata()..GetCategoryModel()..getShopprofaileData()..getProductData()..GetFavData()),
         BlocProvider(create:  (context) => ShopAppRegistercubit()),
       ],
       child: MaterialApp(

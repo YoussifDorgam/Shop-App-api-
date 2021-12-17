@@ -68,10 +68,11 @@ class ShopAppcubit extends Cubit<ShopStatus> {
     SettingScreen(),
   ];
 
-  // method get home Data k
+  // method get home Data
   ShopHomeModel? shopHomeModel;
   IconData? FavIcon;
-  Map<dynamic, dynamic> favorite = {};
+  Map<int, bool> favorite = {};
+
   void gethomedata() {
     emit(ShopLodingStatus());
     Diohelper.getdata(url: HOME, Token: token).then((value) {
@@ -101,7 +102,6 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       print(value.toString());
       emit(ShopCategoriesSuccessStatus());
     }).catchError((error) {
-      print('//////////////////////////////////////');
       print(error.toString());
       emit(ShopCategoriesErrorStatus());
     });
@@ -162,6 +162,7 @@ class ShopAppcubit extends Cubit<ShopStatus> {
 
   // method change favourite model
   ChangeFavouriteModel? changeFavouriteModel;
+
   // void ChangeFavourite(int product) {
   //
   //   favorite[product] = !favorite[product];
@@ -189,58 +190,42 @@ class ShopAppcubit extends Cubit<ShopStatus> {
   // }
 
   // method get fav data & product
-  void changeFavorites(int productId)
-  {
-    if(favorite[productId] == true) {
+  void changeFavorites(int productId) {
+    if (favorite[productId] == true) {
       favorite[productId] = false;
-      FavIcon = Icons.favorite;
-    }
-    else {
+    } else {
       favorite[productId] = true;
-      FavIcon = Icons.favorite_border;
     }
     emit(ShopChangeFavorietsState());
-    Diohelper.PostData(url: FAVOURITE,
-      data:
-      {
-        'product_id' : productId,
+    Diohelper.PostData(
+      url: FAVOURITE,
+      data: {
+        'product_id': productId,
       },
       Token: token,
     ).then((value) {
       changeFavouriteModel = ChangeFavouriteModel.fromjson(value.data);
       print(value.data);
       GetFavData();
-      if(!changeFavouriteModel!.status!){
-        if(favorite[productId] == true) {
-          favorite[productId] = false;
-          FavIcon = Icons.favorite;
-        }
-        else {
-          favorite[productId] = true;
-          FavIcon = Icons.favorite_border;
-        }
-      }
       emit(ShopSuccessChangeFavouriteStatus());
-    }
-    ).catchError((error){
-      if(favorite[productId] == true) {
+    }).catchError((error) {
+      if (favorite[productId] == true) {
         favorite[productId] = false;
         FavIcon = Icons.favorite;
-      }
-      else {
+      } else {
         favorite[productId] = true;
         FavIcon = Icons.favorite_border;
       }
 
       emit(ShopErrorChangeFavouriteStatus());
     });
-
   }
+
   // get favourite data
-  getfavoyritedata? getFavouriteData ;
+  getfavoyritedata? getFavouriteData;
   void GetFavData() {
     emit(ShopLodingGetFavouriteDataStatus());
-    Diohelper.getdata(url: FAVOURITE , Token: token).then((value) {
+    Diohelper.getdata(url: FAVOURITE, Token: token).then((value) {
       getFavouriteData = getfavoyritedata.fromJson(value.data);
       print(value.toString());
       emit(ShopSuccessGetFavouriteDataStatus());
@@ -250,40 +235,16 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       emit(ShopErrorGetFavouriteDataStatus());
     });
   }
-
- // ProductDetailsModel? homeProductmodel ;
-  // void gethomepro_data( )
-  // {
-  //   emit(ShopLodingGetHomProductDataStatus());
-  //   Diohelper.getdata(url: 'products' , Token: token)
-  //       .then((value)
-  //   {
-  //     homeProductmodel = ProductDetailsModel.fromJson(value.data);
-  //     print('.....................${homeProductmodel!.status.toString}');
-  //     emit(ShopSuccessGetHomProductDataStatus( ));
-  //   }).catchError((error){
-  //     print('Error in this case is ${error.toString()}');
-  //     emit(ShopErrorGetHomProductDataStatus());
-  //   });
-  // }
-
-
   ProductDetailsModel? productDetailsModel;
-
-  void getProductData( ) {
+  void getProductData() {
     emit(ShopLodingGetHomProductDataStatus());
-    Diohelper.getdata(
-        url: 'products/',
-        Token: token
-    ).then((value){
+    Diohelper.getdata(url: 'products/', Token: token).then((value) {
       productDetailsModel = ProductDetailsModel.fromJson(value.data);
-      print('Product Detail '+productDetailsModel!.status.toString());
+      print('Product Detail ' + productDetailsModel!.status.toString());
       emit(ShopSuccessGetHomProductDataStatus());
-    }).catchError((error){
+    }).catchError((error) {
       emit(ShopErrorGetHomProductDataStatus());
       print(error.toString());
     });
   }
-
-
 }

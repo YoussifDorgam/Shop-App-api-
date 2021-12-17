@@ -155,7 +155,7 @@ Widget BuildCategoriesItm(Data? data) => Padding(
       ),
     );
 
-Widget HomeProductsItems(ProductsData? model, context) => InkWell(
+Widget HomeProductsItems(ProductsData model, context) => InkWell(
       onTap: () {},
       child: Container(
         color: Colors.white,
@@ -166,7 +166,7 @@ Widget HomeProductsItems(ProductsData? model, context) => InkWell(
               alignment: Alignment.bottomLeft,
               children: [
                 Image(
-                  image: NetworkImage('${model!.image}'),
+                  image: NetworkImage('${model.image}'),
                   width: double.infinity,
                   height: 200.0,
                 ),

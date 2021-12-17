@@ -83,3 +83,4 @@ class ShopSuccessGetHomProductDataStatus extends ShopStatus
 }
 class ShopErrorGetHomProductDataStatus extends ShopStatus {
 }
+
