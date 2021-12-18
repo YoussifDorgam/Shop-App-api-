@@ -60,7 +60,7 @@ class ShopLoginScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
-            elevation: 0.0,
+            elevation: 1.0,
           ),
           backgroundColor: Colors.white,
           body: Center(

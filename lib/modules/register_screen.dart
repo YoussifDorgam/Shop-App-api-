@@ -48,7 +48,7 @@ class RefisterScreen extends StatelessWidget {
               ShopAppcubit.get(context).currentindex = 0;
               ShopAppcubit.get(context).gethomedata();
               ShopAppcubit.get(context).getShopprofaileData();
-              // ShopCubit.get(context).getFavoriteData();
+              ShopAppcubit.get(context).GetFavData();
               // ShopCubit.get(context).getCartData();
               // ShopCubit.get(context).getAddresses();
             }).catchError((error) {
@@ -70,7 +70,12 @@ class RefisterScreen extends StatelessWidget {
         var cubit = ShopAppRegistercubit.get(context);
         return Scaffold(
           appBar: AppBar(
-            elevation: 0.0,
+            leading: InkWell(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: const Icon(Icons.arrow_back_ios ,color:Colors.black,)),
+            elevation: 1.0,
             backgroundColor: Colors.white,
           ),
           body: Form(
@@ -150,6 +155,10 @@ class RefisterScreen extends StatelessWidget {
                         prefix: Icons.lock,
                         sufix: cubit.iconData,
                         obscureText: cubit.isoscureShow,
+                        suffixPressed: ()
+                        {
+                          cubit.eyeisShow();
+                        },
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'PLease Inter your Password';

@@ -12,6 +12,7 @@ import 'package:shopapp/shared/constance/combonants.dart';
 import 'home_product_data_screean.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopAppcubit, ShopStatus>(
@@ -100,7 +101,7 @@ Widget HomeData(ShopHomeModel? model, CategoryModel? categoryModel, context) =>
           Container(
             color: Colors.grey[300],
             child: GridView.count(
-              childAspectRatio: 1 / 1.70,
+              childAspectRatio: 1 / 1.65,
               mainAxisSpacing: 1.0,
               crossAxisSpacing: 1.0,
               shrinkWrap: true,
@@ -198,6 +199,7 @@ Widget HomeProductsItems(ProductsData model, context) => Container(
               style: const TextStyle(
                   fontSize: 14.0, color: Colors.black, height: 1.0),
             ),
+            const SizedBox(height: 10,),
             Row(
               children: [
                 Text(
@@ -221,16 +223,18 @@ Widget HomeProductsItems(ProductsData model, context) => Container(
                     ),
                   ),
                 const Spacer(),
-                IconButton(
-                  onPressed: () {
+                InkWell(
+                  onTap: ()
+                  {
                     print(model.id);
                     ShopAppcubit.get(context).changeFavorites(model.id);
                   },
-                  icon: Icon(
+                  child: Icon(
                     ShopAppcubit.get(context).favorite[model.id] == true
-                        ? ShopAppcubit().FavIcon = Icons.favorite
-                        : ShopAppcubit().FavIcon = Icons.favorite_border,
-                    size: 18,
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    size: 25,
+                    color:  ShopAppcubit.get(context).favorite[model.id] == true ? Colors.deepOrange : Colors.black ,
                   ),
                 ),
               ],

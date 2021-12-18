@@ -41,22 +41,22 @@ class ShopAppcubit extends Cubit<ShopStatus> {
     const Icon(
       Icons.home,
       size: 30.0,
-      color: Colors.black,
+      color: Colors.deepOrange,
     ),
     const Icon(
-      Icons.grid_on_sharp,
+      Icons.category,
       size: 30.0,
-      color: Colors.black,
+      color: Colors.deepOrange,
     ),
     const Icon(
       Icons.favorite,
       size: 30.0,
-      color: Colors.black,
+      color: Colors.deepOrange,
     ),
     const Icon(
       Icons.settings,
       size: 30.0,
-      color: Colors.black,
+      color: Colors.deepOrange,
     ),
   ];
 
@@ -118,7 +118,6 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       print(UserModej.toString());
       print(UserModej!.data!.name);
     }).catchError((error) {
-      print('errorrrrrrrr');
       print(error.toString());
       emit(ShopErrorProfileStatus());
     });
@@ -140,12 +139,12 @@ class ShopAppcubit extends Cubit<ShopStatus> {
         'phone': phone,
       },
     ).then((value) {
+      getShopprofaileData();
       UserModej = ShopLoginModel.formjson(value.data);
-      emit(ShopSuccessUpdateUserStatus(UserModej!));
+      emit(ShopSuccessUpdateUserStatus());
       print(UserModej.toString());
       print(UserModej!.data!.name);
     }).catchError((error) {
-      print('errorrrrrrrr');
       print(error.toString());
       emit(ShopErrorUpdateUserStatus());
     });
@@ -162,34 +161,6 @@ class ShopAppcubit extends Cubit<ShopStatus> {
 
   // method change favourite model
   ChangeFavouriteModel? changeFavouriteModel;
-
-  // void ChangeFavourite(int product) {
-  //
-  //   favorite[product] = !favorite[product];
-  //   emit(ShopSuccessChangeFavouriteStatus());
-  //   Diohelper.PostData(url: FAVOURITE,
-  //       Token: token,
-  //       data: {
-  //     'product_id': product,
-  //   }).then((value)
-  //   {
-  //     if(changeFavouriteModel!.status == false)
-  //       {
-  //         favorite[product] = !favorite[product];
-  //       }
-  //     changeFavouriteModel = ChangeFavouriteModel.fromjson(value.data);
-  //     emit(ShopSuccessChangeFavouriteStatus());
-  //     print(value.data);
-  //   }).catchError((error)
-  //   {
-  //     favorite[product] = !favorite[product];
-  //     emit(ShopErrorChangeFavouriteStatus());
-  //     print('edszkchxjkclzckkvczc');
-  //     print(error.toString());
-  //   });
-  // }
-
-  // method get fav data & product
   void changeFavorites(int productId) {
     if (favorite[productId] == true) {
       favorite[productId] = false;

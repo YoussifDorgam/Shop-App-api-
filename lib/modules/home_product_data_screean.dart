@@ -46,7 +46,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   padding:
                   EdgeInsets.symmetric(horizontal: 30.0),
                   child: LinearProgressIndicator(
-                    color: Colors.deepPurpleAccent,
+                    color: Colors.black,
                   ),
                 ),
               )
@@ -58,18 +58,6 @@ class _ProductDetailsState extends State<ProductDetails> {
 
             }));
   }
-  Widget buildonbordingScreen1() => Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Image.asset(
-        'assets/images/image1.png',
-        width: double.infinity,
-        height: 250,
-        fit: BoxFit.cover,
-      ),
-
-    ],
-  );
   Widget bodyBuild(context, ProductDetailsModel? model,) {
     List<Widget> images = [];
     model!.data.images.forEach((element) {
@@ -104,7 +92,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               Row(
                 children:
                 [
-                  Text("${model.data.price.toString()} EGP",style: const TextStyle(fontSize: 20,color: Colors.deepPurpleAccent),),
+                  Text("${model.data.price.toString()} EGP",style: const TextStyle(fontSize: 20,color: Colors.deepOrange),),
                   const Spacer(),
                   CircleAvatar(
                     child: IconButton(icon: const Icon(Icons.add_shopping_cart),onPressed: (){
@@ -115,7 +103,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
               const Padding(
                 padding: EdgeInsets.all(20.0),
-                child: Divider(height: 2,color: Colors.deepPurpleAccent,endIndent: 10,indent: 10,),
+                child: Divider(height: 2,color: Colors.deepOrange,endIndent: 10,indent: 10,),
               ),
               const SizedBox(height: 15,),
               const Text("Description",style: TextStyle(fontSize: 20),),

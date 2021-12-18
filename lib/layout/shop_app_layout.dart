@@ -6,6 +6,8 @@ import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/cubit.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/status.dart';
 import 'package:shopapp/shared/constance/combonants.dart';
 class ShopAppLayout extends StatelessWidget {
+  const ShopAppLayout({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer< ShopAppcubit ,ShopStatus>(
@@ -14,7 +16,8 @@ class ShopAppLayout extends StatelessWidget {
         var cubit = ShopAppcubit.get(context);
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.white ,
+            elevation: 1.0,
             title: const Text(
               'Salla',
               style: TextStyle(color: Colors.black),
@@ -26,7 +29,7 @@ class ShopAppLayout extends StatelessWidget {
                 {
                   Navegato(context, SearchScreen());
                 },
-                icon: const Icon(Icons.search,color: Colors.black),
+                icon: const Icon(Icons.search,color: Colors.deepOrange),
               ),
             ],
           ),

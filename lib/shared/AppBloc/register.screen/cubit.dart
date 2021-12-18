@@ -37,7 +37,7 @@ class ShopAppRegistercubit extends Cubit<ShopRegisterStatus> {
     });
   }
 
-  IconData iconData =Icons.visibility_outlined ;
+  IconData iconData = Icons.visibility_outlined ;
   bool isoscureShow = true;
 
   void eyeisShow() {

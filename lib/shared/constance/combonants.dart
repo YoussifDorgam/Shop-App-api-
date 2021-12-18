@@ -21,7 +21,10 @@ Widget bottom({
   required String text,
 }) => Container(
   width: width,
-  color: color,
+  decoration:  BoxDecoration(
+    color: color,
+    borderRadius: BorderRadius.circular(20.0),
+  ),
   child: MaterialButton(onPressed:onpressed ,
     child: Text(
       text,
@@ -57,19 +60,26 @@ Widget defulteditTextx({
   // } ,
   validator: validator ,
   decoration:InputDecoration(
+    labelStyle: const TextStyle(color: Colors.deepOrange),
     labelText: Lable ,
     border:  const OutlineInputBorder() ,
     prefixIcon: Icon(
-      prefix ,
+      prefix ,color:Colors.deepOrange,
     ) ,
     suffixIcon: sufix != null ? IconButton(onPressed: suffixPressed, icon: Icon(sufix)) : null,
+    enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: BorderSide(color: Colors.white)),
+    focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: const BorderSide(color: Colors.deepOrange)),
+    filled: true,
+    fillColor: Colors.grey[200],
   ),
 
 );
 
-Widget buildCategoriesItem (Data model) {
-  return
-    Container(
+Widget buildCategoriesItem (Data model) {return Container(
       padding: const EdgeInsets.all(15),
       child: Row(
         children:

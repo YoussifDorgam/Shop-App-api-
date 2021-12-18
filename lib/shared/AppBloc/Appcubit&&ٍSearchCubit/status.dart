@@ -37,9 +37,9 @@ class ShopErrorProfileStatus extends ShopStatus {
 class ShopLodingUpdateUserStatus extends ShopStatus {}
 class ShopSuccessUpdateUserStatus extends ShopStatus
 {
-  final ShopLoginModel shopHomeModel ;
 
-  ShopSuccessUpdateUserStatus(this.shopHomeModel);
+
+
 }
 class ShopErrorUpdateUserStatus extends ShopStatus {
 }

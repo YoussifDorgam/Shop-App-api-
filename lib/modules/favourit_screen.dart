@@ -21,8 +21,8 @@ class FavouriteScreen extends StatelessWidget {
                   cubit.getFavouriteData!.data!.data[index], context),
               separatorBuilder: (context, index) => myDivider(),
               itemCount: cubit.getFavouriteData!.data!.data.length),
-          fallback: (BuildContext context) =>
-              const Center(child: CircularProgressIndicator()),
+          fallback: (BuildContext context) =>  Center(child: Text('No Data 🙁' ,style:
+            TextStyle(color: Colors.grey[300] ,fontSize: 30),)),
         );
       },
     );
