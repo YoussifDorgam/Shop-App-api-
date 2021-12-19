@@ -61,27 +61,25 @@ class ShopSuccessSearchStatus extends SearchStatus
 class ShopErrorSearchStatus extends SearchStatus {
 }
 /////////////////////////////////////////
-class ShopSuccessChangeFavouriteStatus extends ShopStatus
-{
-
-}
-class ShopErrorChangeFavouriteStatus extends ShopStatus {
-}
-//////////////////////////////////////////
 class ShopChangeFavorietsState extends ShopStatus {}
+class ShopSuccessChangeFavouriteStatus extends ShopStatus{}
+class ShopErrorChangeFavouriteStatus extends ShopStatus{}
+//////////////////////////////////////////
 class ShopLodingGetFavouriteDataStatus extends ShopStatus {}
-class ShopSuccessGetFavouriteDataStatus extends ShopStatus
-{
-
-}
-class ShopErrorGetFavouriteDataStatus extends ShopStatus {
-}
+class ShopSuccessGetFavouriteDataStatus extends ShopStatus {}
+class ShopErrorGetFavouriteDataStatus extends ShopStatus {}
 ////////////////////////////////////////
 class ShopLodingGetHomProductDataStatus extends ShopStatus {}
-class ShopSuccessGetHomProductDataStatus extends ShopStatus
-{
-}
+class ShopSuccessGetHomProductDataStatus extends ShopStatus {}
 class ShopErrorGetHomProductDataStatus extends ShopStatus {}
 ////////////
 class ChangeIndicatorState extends ShopStatus {}
-
+////////////////////////////////////////
+class ShopChangeCartsState extends ShopStatus {}
+class ShopSuccessChangeCartsStatus extends ShopStatus{}
+class ShopErrorChangeCartsStatus extends ShopStatus{}
+////////////////////////////////////////
+class ShopLodingGetCartsDataStatus extends ShopStatus {}
+class ShopSuccessGetCartsDataStatus extends ShopStatus {}
+class ShopErrorGetCartsDataStatus extends ShopStatus {}
+////////////////////////////////////////

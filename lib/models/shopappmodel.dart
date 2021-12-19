@@ -50,7 +50,7 @@ class ProductsData
   String? image ;
   String? name ;
   late bool infavorites ;
-  bool? Incart ;
+  late bool Incart ;
 
   ProductsData.fromjsom(Map<String , dynamic>json)
   {

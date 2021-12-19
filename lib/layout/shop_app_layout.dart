@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopapp/modules/cart_screen.dart';
 import 'package:shopapp/modules/searchscreen.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/cubit.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/status.dart';
@@ -24,6 +25,13 @@ class ShopAppLayout extends StatelessWidget {
             ),
             actions:
             [
+              IconButton(
+                onPressed: ()
+                {
+                  Navegato(context, const CartScreen());
+                },
+                icon: const Icon(Icons.shopping_cart_outlined,color: Colors.deepOrange),
+              ),
               IconButton(
                 onPressed: ()
                 {

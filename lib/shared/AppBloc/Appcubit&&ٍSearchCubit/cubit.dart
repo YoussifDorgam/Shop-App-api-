@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/models/change_favourite_model.dart';
+import 'package:shopapp/models/get_cart_data.dart';
 import 'package:shopapp/models/get_favourite_data.dart';
 import 'package:shopapp/models/get_homedata.dart';
 import 'package:shopapp/models/shop_category_model.dart';
 import 'package:shopapp/models/shop_login_model.dart';
 import 'package:shopapp/models/shopappmodel.dart';
 import 'package:shopapp/modules/category_screen.dart';
+import 'package:shopapp/models/change_cart_items.dart';
 import 'package:shopapp/modules/favourit_screen.dart';
 import 'package:shopapp/modules/home_screen.dart';
 import 'package:shopapp/modules/login_screen.dart';
@@ -72,6 +74,7 @@ class ShopAppcubit extends Cubit<ShopStatus> {
   ShopHomeModel? shopHomeModel;
   IconData? FavIcon;
   Map<int, bool> favorite = {};
+  Map<int, bool> InCart = {};
 
   void gethomedata() {
     emit(ShopLodingStatus());
@@ -83,7 +86,14 @@ class ShopAppcubit extends Cubit<ShopStatus> {
           element.id: element.infavorites,
         });
       });
-      print(favorite.toString());
+
+      shopHomeModel!.data!.products.forEach((element) {
+        InCart.addAll({
+          element.id: element.Incart,
+        });
+      });
+      print("Cart data ${InCart.toString()}");
+      print("Favourite data ${favorite.toString()}");
       print(shopHomeModel!.data!.banners[0]);
       print(value.toString());
     }).catchError((error) {
@@ -191,7 +201,6 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       emit(ShopErrorChangeFavouriteStatus());
     });
   }
-
   // get favourite data
   getfavoyritedata? getFavouriteData;
   void GetFavData() {
@@ -206,10 +215,8 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       emit(ShopErrorGetFavouriteDataStatus());
     });
   }
-
-
+  // get product details
   ProductDetailsModel? productDetailsModel;
-
   void getProductData(String id) {
     emit(ShopLodingGetHomProductDataStatus());
     Diohelper.getdata(url: PRODUCT+id, Token: token).then((value) {
@@ -221,10 +228,47 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       print(error.toString());
     });
   }
-
+  //
   int value = 0;
   void changeVal(val){
     value = val;
     emit(ChangeIndicatorState());
   }
+  ///////////////////////////
+  ChangeCartModel? changeCartModel ;
+  void changeCart(int productId) {
+    if (InCart[productId] == true) {
+      InCart[productId] = false;
+    } else {InCart[productId] = true;}
+    emit(ShopChangeCartsState());
+    Diohelper.PostData(
+      url: CARTS,
+      data: {
+        'product_id': productId,
+      },
+      Token: token,
+    ).then((value) {
+      changeCartModel = ChangeCartModel.fromjson(value.data);
+      GetCartData();
+      print(value.data);
+      emit(ShopSuccessChangeCartsStatus());
+    }).catchError((error) {
+      if (InCart[productId] == true) {InCart[productId] = false;} else {InCart[productId] = true;}
+      emit(ShopErrorChangeCartsStatus());
+    });
+  }
+  // get cart data
+  GetCartModel? getCartModel;
+  void GetCartData() {
+    emit(ShopLodingGetCartsDataStatus());
+    Diohelper.getdata(url: CARTS, Token: token).then((value) {
+      getCartModel = GetCartModel.fromJson(value.data);
+      print(value.toString());
+      emit(ShopSuccessGetCartsDataStatus());
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopErrorGetCartsDataStatus());
+    });
+  }
+
 }

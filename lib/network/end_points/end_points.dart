@@ -7,3 +7,5 @@ const update_profile = 'update-profile' ;
 const productssearch = 'products/search' ;
 const FAVOURITE = 'favorites' ;
 const PRODUCT = 'products/' ;
+const CARTS = 'carts' ;
+
