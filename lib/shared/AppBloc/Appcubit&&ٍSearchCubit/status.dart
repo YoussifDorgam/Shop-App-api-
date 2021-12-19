@@ -83,3 +83,10 @@ class ShopLodingGetCartsDataStatus extends ShopStatus {}
 class ShopSuccessGetCartsDataStatus extends ShopStatus {}
 class ShopErrorGetCartsDataStatus extends ShopStatus {}
 ////////////////////////////////////////
+class plusquantity extends ShopStatus {}
+class minusquantity extends ShopStatus {}
+/////////////////////////
+class LoadingGetCountCarts extends ShopStatus {}
+class SuccessGetCountCarts extends ShopStatus {}
+class ErrorGetCountCarts extends ShopStatus {}
+////////////////////////

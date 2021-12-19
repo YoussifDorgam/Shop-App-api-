@@ -270,5 +270,37 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       emit(ShopErrorGetCartsDataStatus());
     });
   }
+  // plusQuantity
+
+
+  int quantity = 1;
+  void plusQuantity(GetCartModel model,index){
+    emit(plusquantity());
+    quantity = model.data.cartItems[index].quantity;
+    quantity++;
+    emit(plusquantity());
+
+  }
+  //minusQuantity
+  void minusQuantity(GetCartModel model,index){
+    quantity = model.data.cartItems[index].quantity;
+    if(quantity > 1) quantity--;
+    emit(minusquantity());
+  }
+
+  void updateCartData({required String id,int? quantity}){
+    emit(LoadingGetCountCarts());
+    Diohelper.PutData(url: "${UPATECARTS+id}"  , data: {
+      'quantity':quantity ,
+    } , Token: token).then((value) {
+      GetCartData();
+      print('done    هحااااااااااااااااااااااااااى');
+      emit(SuccessGetCountCarts());
+    }).catchError((error){
+      print(error.toString());
+      emit(ErrorGetCountCarts());
+    });
+  }
+
 
 }

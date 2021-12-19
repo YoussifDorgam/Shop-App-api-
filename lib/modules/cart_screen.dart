@@ -11,67 +11,50 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ShopAppcubit, ShopStatus>(
-      listener: (BuildContext context, state) {},
-      builder: (BuildContext context, Object? state) {
-        var cubit = ShopAppcubit.get(context);
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 1.0,
-            title: const Text(
-              'Review Cart',
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          bottomNavigationBar: ListTile(
-            title: const Text('Total Amount'),
-            subtitle: const Text(
-              '100 EG',
-              style: TextStyle(color: Colors.green),
-            ),
-            trailing: SizedBox(
-              width: 160.0,
-              height: 40.0,
-              child: MaterialButton(
-                onPressed: () {},
-                child: const Text(
-                  'Submit',
-                  style: TextStyle(color: Colors.white),
+    return BlocProvider.value(
+      value: BlocProvider.of<ShopAppcubit>(context)..GetCartData(),
+      child: BlocConsumer<ShopAppcubit, ShopStatus>(
+        listener: (BuildContext context, state) {},
+        builder: (BuildContext context, Object? state) {
+          var cubit = ShopAppcubit.get(context);
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 1.0,
+              title: const Text(
+                'Review Cart',
+                style: TextStyle(
+                  color: Colors.black,
                 ),
-                color: Colors.deepOrange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+              ),
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
                 ),
               ),
             ),
-          ),
-          body: ShopAppcubit.get(context).getCartModel == null ?
-          const Text('احاا') :
-          ListView.separated(
-            shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) => buildCartItem(
-                  cubit.getCartModel!.data.cartItems[index], context),
-              separatorBuilder: (context, index) => myDivider(),
-              itemCount: cubit.getCartModel!.data.cartItems.length),
-        );
-      },
+            bottomNavigationBar: ShopAppcubit.get(context).getCartModel == null ? const Center(child: CircularProgressIndicator())
+                : buildButtomNavigationBAR(context) ,
+            body: ShopAppcubit.get(context).getCartModel == null ?
+            const Center(child:Text('No Cart data')) :
+            ListView.separated(
+              shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) => buildCartItem(
+                    cubit.getCartModel!.data.cartItems[index], context , index , ShopAppcubit.get(context).getCartModel! ),
+                separatorBuilder: (context, index) => myDivider(),
+                itemCount: cubit.getCartModel!.data.cartItems.length),
+          );
+        },
+      ),
     );
   }
 
-  Widget buildCartItem(CartItems cartItems, context) => Padding(
+  Widget buildCartItem(CartItems cartItems, context , index ,GetCartModel model) => Padding(
         padding: const EdgeInsets.all(20.0),
         child: SizedBox(
           height: 140.0,
@@ -126,16 +109,24 @@ class CartScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                              onPressed: () {}, icon: Icon(Icons.remove)),
-                          Text('0'),
-                          IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                              onPressed: () {
+                                ShopAppcubit.get(context).minusQuantity(model,index);
+                                ShopAppcubit.get(context).updateCartData(id: model.data.cartItems[index].id.toString(),quantity: ShopAppcubit.get(context).quantity);
+                                print(model.data.cartItems[index].quantity.toString());
+                              }, icon: const Icon(Icons.remove)),
+                          Text(cartItems.quantity.toString()),
+                          IconButton(onPressed: () {
+                            ShopAppcubit.get(context).plusQuantity(model,index);
+                            ShopAppcubit.get(context).updateCartData(id: model.data.cartItems[index].id.toString(),quantity: ShopAppcubit.get(context).quantity);
+                            print(model.data.cartItems[index].quantity.toString());
+                          }, icon: const Icon(Icons.add)),
                         ],
                       ),
                     ),
                     Row(
                       children: [
                         Text(
-                          cartItems.product.price.toString(),
+                          '${cartItems.product.price} EG',
                           style: const TextStyle(
                             fontSize: 12.0,
                             color: Colors.deepOrange,
@@ -169,6 +160,28 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       );
+  Widget buildButtomNavigationBAR(context ) =>  ListTile(
+    title: const Text('Total Amount'),
+    subtitle:  Text(
+      '${ShopAppcubit.get(context).getCartModel!.data.total} EG',
+      style: const TextStyle(color: Colors.green),
+    ),
+    trailing: SizedBox(
+      width: 160.0,
+      height: 40.0,
+      child: MaterialButton(
+        onPressed: () {},
+        child: const Text(
+          'Submit',
+          style: TextStyle(color: Colors.white),
+        ),
+        color: Colors.deepOrange,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+      ),
+    ),
+  );
 
 
 }
