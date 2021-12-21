@@ -60,4 +60,20 @@ class Diohelper {
   }
 
 
+  static Future<Response> deleteData ({
+    required String url,
+    String lang = 'en',
+    String ?token
+  })async
+  {
+    dio.options.headers =
+    {
+      'lang':'$lang',
+      'Content-Type':'application/json',
+      'Authorization' : '$token'
+    };
+    return await dio.delete(url);
+  }
+
+
 }

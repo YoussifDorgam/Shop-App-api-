@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/layout/shop_app_layout.dart';
+import 'package:shopapp/modules/home_screen.dart';
 import 'package:shopapp/modules/login_screen.dart';
 import 'package:shopapp/modules/on_bording_screen.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/cubit.dart';
@@ -12,41 +13,32 @@ import 'package:shopapp/shared/constance/cons.dart';
 import 'package:shopapp/shared/remote/catch.helper.dart';
 import 'package:shopapp/shared/remote/dio.helper.dart';
 
-import 'modules/home_product_data_screean.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   Diohelper.init();
   await cachHelper.init();
-
-  bool OnBording = cachHelper.getData('ShowOnBoard');
+  dynamic onBoardingFinish = false;
+  onBoardingFinish = cachHelper.getData('ShowOnBoard');
   token = cachHelper.getData('token');
-  Widget widget = ShopAppLayout();
-  if (OnBording != null) {
-    if (token != null) {
-      print(token);
-      widget = ShopAppLayout();
-    } else {
-      widget = ShopLoginScreen();
+  late Widget start;
+  if(onBoardingFinish != null){
+    if(token == null){
+      start = ShopLoginScreen();
+    }else{
+      start = const HomeScreen();
     }
-    //بيرجع من الاول تانى لى
-  } else {
-    widget = OnBording_Screen();
+  }else {
+    start = OnBording_Screen();
   }
-  runApp(MyApp(
-    onbo: OnBording,
-    Startapp: widget,
-  ));
+
+  runApp(MyApp(start));
 }
 
 class MyApp extends StatelessWidget {
-  late final Widget Startapp;
-
-  late final bool onbo;
-
-  MyApp({required this.Startapp, required this.onbo});
-
+  Widget startApp;
+  MyApp(this.startApp);
   // his widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -54,7 +46,7 @@ class MyApp extends StatelessWidget {
       providers:
       [
         BlocProvider(create:  (context) => ShopAppLogincubit()),
-        BlocProvider(create:  (context) => ShopAppcubit()..gethomedata()..GetCategoryModel()..GetFavData()),
+        BlocProvider(create:  (context) => ShopAppcubit()..gethomedata()..GetCategoryModel()),
         BlocProvider(create:  (context) => ShopAppRegistercubit()),
       ],
       child: MaterialApp(
@@ -63,7 +55,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white ,
         ),
         debugShowCheckedModeBanner: false,
-        home: Startapp,
+        home: startApp,
       ),
     );
   }

@@ -1,46 +1,36 @@
 import 'package:flutter/material.dart';
-String? token  = '';
+import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/cubit.dart';
+import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/status.dart';
+dynamic token  = '';
+bool isEdit = false;
+String editText = 'Edit';
 
-// void PrintFullText(String text)
-// {
-//   final Pattern = RegExp('.{1,800}');
-//   Pattern.allMatches((text).foreach(math) => print(math.group(0)));
-// }
+void editPressed({
+  required context,
+  required email,
+  required name,
+  required phone,
+})
+{
+  isEdit =! isEdit;
+  if(isEdit) {
+    editText = 'Save';
+    ShopAppcubit.get(context).emit(EditPressedState());
+  } else {
+    editText = 'Edit';
+    ShopAppcubit.get(context).getShopUpdateprofaileData(
+        email: email,
+        name: name,
+        phone: phone
+    );
+  }
+
+}
+
+
 
 Widget myDivider() => Container(
   color: Colors.grey[300],
   height: 1,
   width: double.infinity,
 );
-
-
-// Padding(
-// padding: const EdgeInsets.all(20.0),
-// child: Column(
-// children: [
-// defulteditTextx(
-// Controlar: SearchContolar,
-// keyboardType: TextInputType.text,
-// Lable: 'Search',
-// prefix: Icons.search,
-// validator: (value) {
-// if (value!.isEmpty) {
-// return 'Email is to Short';
-// }
-// return null;
-// },
-// onSubmit: (String text)
-// {
-// cubit.Searchmod(text: text);
-// }
-// ),
-// const SizedBox(
-// height: 20.0,
-// ),
-// if(state is ShopLodingSearchStatus)
-// const LinearProgressIndicator(),
-// const SizedBox(height: 10.0,),
-//
-// ],
-// ),
-// ),

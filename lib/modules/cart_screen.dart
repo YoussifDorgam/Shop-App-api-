@@ -39,8 +39,16 @@ class CartScreen extends StatelessWidget {
             ),
             bottomNavigationBar: ShopAppcubit.get(context).getCartModel == null ? const Center(child: CircularProgressIndicator())
                 : buildButtomNavigationBAR(context) ,
-            body: ShopAppcubit.get(context).getCartModel == null ?
-            const Center(child:Text('No Cart data')) :
+            body: ShopAppcubit.get(context).getCartModel == null ? const Center(child: CircularProgressIndicator())
+                : ShopAppcubit.get(context).getCartModel!.data.cartItems.isEmpty ?
+            const Center(child: Text('Reciew Cart is Embty 🙁',
+              style: TextStyle(
+                  fontSize: 20 ,
+                  color: Colors.grey ,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.normal
+              ),
+            ))  :
             ListView.separated(
               shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
@@ -161,7 +169,7 @@ class CartScreen extends StatelessWidget {
         ),
       );
   Widget buildButtomNavigationBAR(context ) =>  ListTile(
-    title: const Text('Total Amount'),
+    title: const Text('Total Price'),
     subtitle:  Text(
       '${ShopAppcubit.get(context).getCartModel!.data.total} EG',
       style: const TextStyle(color: Colors.green),
@@ -172,7 +180,7 @@ class CartScreen extends StatelessWidget {
       child: MaterialButton(
         onPressed: () {},
         child: const Text(
-          'Submit',
+          'Order',
           style: TextStyle(color: Colors.white),
         ),
         color: Colors.deepOrange,

@@ -14,7 +14,7 @@ class CategoryScreen extends StatelessWidget {
         var cubit =  ShopAppcubit.get(context);
         return ListView.separated(
             physics: const BouncingScrollPhysics(),
-            itemBuilder:(context,index) => buildCategoriesItem(cubit.categoryModel!.data!.data[index]),
+            itemBuilder:(context,index) => buildCategoriesItem(cubit.categoryModel!.data!.data[index] , context),
             separatorBuilder:(context,index) => myDivider(),
             itemCount: cubit.categoryModel!.data!.data.length);
       },

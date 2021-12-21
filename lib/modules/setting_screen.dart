@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopapp/modules/profile_screen.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/cubit.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/status.dart';
 import 'package:shopapp/shared/constance/combonants.dart';
 
-class SettingScreen extends StatelessWidget {
-  var Namecontolar = TextEditingController();
-  var emailConerolar = TextEditingController();
-  var PhoneConerolar = TextEditingController();
+import 'address_screen.dart';
+import 'cart_screen.dart';
+import 'contact_screen.dart';
+import 'faqs_screen.dart';
+import 'favourit_screen.dart';
+
+class SettingScreen extends StatefulWidget {
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  bool value = false;
+
   var Formkey = GlobalKey<FormState>();
 
   @override
@@ -16,20 +27,6 @@ class SettingScreen extends StatelessWidget {
       value: BlocProvider.of<ShopAppcubit>(context)..getShopprofaileData(),
       child: BlocConsumer<ShopAppcubit, ShopStatus>(
         listener: (BuildContext context, state) {
-          if (state is ShopSuccessProfileStatus) {
-            emailConerolar.text =
-                ShopAppcubit.get(context).UserModej!.data!.email!;
-            Namecontolar.text =
-                ShopAppcubit.get(context).UserModej!.data!.name!;
-            PhoneConerolar.text =
-                ShopAppcubit.get(context).UserModej!.data!.phone!;
-          }
-
-          if (state is signOut) {
-            Namecontolar.clear();
-            emailConerolar.clear();
-            PhoneConerolar.clear();
-          }
 
           if (state is ShopSuccessUpdateUserStatus) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -41,95 +38,100 @@ class SettingScreen extends StatelessWidget {
         },
         builder: (BuildContext context, Object? state) {
           var cubit = ShopAppcubit.get(context);
-          return SingleChildScrollView(
-            child: state is ShopLodingProfileStatus
-                ? const Center(child: LinearProgressIndicator())
-                : Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Form(
-                      key: Formkey,
-                      child: Column(
-                        children: [
-                          if (state is ShopLodingUpdateUserStatus)
-                            const Padding(
-                              padding: EdgeInsets.all(28.0),
-                              child: LinearProgressIndicator(
-                                color: Colors.purple,
-                              ),
-                            ),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          defulteditTextx(
-                            Controlar: Namecontolar,
-                            keyboardType: TextInputType.text,
-                            Lable: 'Name',
-                            prefix: Icons.person,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please inter Your Name';
-                              }
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          defulteditTextx(
-                            Controlar: emailConerolar,
-                            keyboardType: TextInputType.text,
-                            Lable: 'Email Address',
-                            prefix: Icons.email,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please inter Your Email';
-                              }
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          defulteditTextx(
-                            Controlar: PhoneConerolar,
-                            keyboardType: TextInputType.phone,
-                            Lable: 'Phone',
-                            prefix: Icons.phone,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please inter Your Phone';
-                              }
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          bottom(
-                              width: double.infinity,
-                              color: Colors.deepOrange,
-                              onpressed: () {
-                                ShopAppcubit.get(context)
-                                    .getShopUpdateprofaileData(
-                                        name: Namecontolar.text,
-                                        email: emailConerolar.text,
-                                        phone: PhoneConerolar.text);
-                              },
-                              text: 'Update'),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          bottom(
-                              width: double.infinity,
-                              color: Colors.deepOrange,
-                              onpressed: () {
-                                cubit.SignOut(context);
-                              },
-                              text: 'LOGOUT'),
-                        ],
-                      ),
-                    ),
+          return  ShopAppcubit.get(context).UserModej == null ? const Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child:  Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:
+              [
+                const SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15 ),
+                  child: Text('Hi ${cubit.UserModej!.data!.name}' ,
+                    style: const TextStyle(fontSize: 20.0),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text('${cubit.UserModej!.data!.email}' ,
+                    style: const TextStyle(fontSize: 15.0,color: Colors.grey),
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                Container(
+                    height: 50,
+                    color: Colors.grey[300],
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(15),
+                    child: const Text('MY ACCOUNT',style: TextStyle(color: Colors.grey,fontSize: 15),)),
+                BulidProfileItem(Icons.shopping_cart_outlined, 'Review Cart' , ontab: ()
+                {
+                  PushToNextScreen(context, const CartScreen());
+                }),
+                BulidProfileItem(Icons.location_on_outlined, 'Addresses' ,ontab: ()
+                {
+                  PushToNextScreen(context,  const AdressesScreen());
+                }),
+                BulidProfileItem(Icons.person_outline, 'Profile' ,ontab: ()
+                {
+                  PushToNextScreen(context,  ProfileScreen());
+                }),
+                Container(
+                    height: 50,
+                    color: Colors.grey[300],
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(15),
+                    child: const Text('SETTING',style: TextStyle(color: Colors.grey,fontSize: 15),)),
+                ListTile(
+                  onTap: (){},
+                  leading: const Icon(Icons.dark_mode_outlined,color: Colors.green,),
+                  title: const Text(
+                    'Dark Mode',
+                    style: TextStyle(color: Colors.black87, fontSize: 17.0 ,fontWeight: FontWeight.bold),
+                  ),
+                  trailing: Switch(
+                    value: value ,
+                    onChanged: (newValue){
+                      setState(() {
+                        value = newValue;
+                      });
+
+                    },
+                  ),
+                ),
+                const Divider(
+                  height: 1,
+                  color: Colors.grey,
+                ),
+                BulidProfileItem(Icons.map_outlined, 'Country'),
+                BulidProfileItem(Icons.flag_outlined, 'Language'),
+                Container(
+                    height: 50,
+                    color: Colors.grey[300],
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(15),
+                    child: const Text('REACH OUT TO US',style: TextStyle(color: Colors.grey,fontSize: 15),)),
+                BulidProfileItem(Icons.info_outline_rounded, 'FAQs',ontab: ()
+                {
+                  cubit.getFAQsData();
+                  PushToNextScreen(context, FAQsScreen());
+                }),
+                BulidProfileItem(Icons.phone_in_talk_outlined, 'Contact Us',
+                ontab: (){
+                  PushToNextScreen(context, const ContactScreen());
+                }),
+                BulidProfileItem(Icons.power_settings_new, 'Sign Out' , ontab: ()
+                {
+                  cubit.SignOut(context);
+                }),
+
+              ],
+            ),
           );
         },
       ),
     );
   }
+
 }

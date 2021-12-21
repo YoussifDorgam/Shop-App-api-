@@ -49,8 +49,9 @@ class RefisterScreen extends StatelessWidget {
               ShopAppcubit.get(context).gethomedata();
               ShopAppcubit.get(context).getShopprofaileData();
               ShopAppcubit.get(context).GetFavData();
-              // ShopCubit.get(context).getCartData();
-              // ShopCubit.get(context).getAddresses();
+              ShopAppcubit.get(context).GetCartData();
+              ShopAppcubit.get(context).getAddresses();
+
             }).catchError((error) {
               print(error.toString());
             });
@@ -70,6 +71,20 @@ class RefisterScreen extends StatelessWidget {
         var cubit = ShopAppRegistercubit.get(context);
         return Scaffold(
           appBar: AppBar(
+            titleSpacing: 1,
+            title: Row(
+              children: const [
+                Image(
+                  image: AssetImage('assets/images/image4.png'),
+                  width: 40,
+                  height: 40,
+                ),
+                Text(
+                  'Salla',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
             leading: InkWell(
                 onTap: (){
                   Navigator.pop(context);
@@ -82,6 +97,7 @@ class RefisterScreen extends StatelessWidget {
             key: Formkey,
             child: Center(
               child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
@@ -208,7 +224,7 @@ class RefisterScreen extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navegato(context, ShopLoginScreen());
+                              PushToNextScreen(context, ShopLoginScreen());
                             },
                             child: const Text('Login'),
                           ),

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/models/search_model.dart';
+import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/cubit.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/searchcubit.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/status.dart';
+import 'package:shopapp/shared/constance/combonants.dart';
 import 'package:shopapp/shared/constance/cons.dart';
+
+import 'home_product_data_screean.dart';
 
 
 class SearchScreen extends StatelessWidget {
-//  ShopCubit shopCubit;
- // SearchScreen(this.shopCubit);
+ // ShopAppcubit shopCubit;
+ // SearchScreen({required this.shopCubit});
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -78,28 +82,34 @@ class SearchScreen extends StatelessWidget {
     );
   }
   Widget searchItemBuilder(SearchProduct? model,context){
-    return  Container(
-      height: 120,
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children:
-        [
-          Image(image: NetworkImage('${model!.image}'),width: 100,height: 100,),
-          const SizedBox(width: 10,),
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children:
-              [
-                Text('${model.name}',
-                  style: TextStyle(fontSize: 15,),maxLines: 3,overflow: TextOverflow.ellipsis,),
-                Spacer(),
-                Text('EGP '+'${model.price}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-              ],
-            ),
-          )
-        ],
+    return  InkWell(
+      onTap: ()
+      {
+        PushToNextScreen(context, ProductDetails(model!.id));
+      },
+      child: Container(
+        height: 120,
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children:
+          [
+            Image(image: NetworkImage('${model!.image}'),width: 100,height: 100,),
+            const SizedBox(width: 10,),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:
+                [
+                  Text('${model.name}',
+                    style: TextStyle(fontSize: 15,),maxLines: 3,overflow: TextOverflow.ellipsis,),
+                  Spacer(),
+                  Text('EGP '+'${model.price}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

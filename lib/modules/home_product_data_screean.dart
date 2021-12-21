@@ -73,6 +73,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         : Padding(
             padding: const EdgeInsets.all(18.0),
             child: ListView(
+              physics: const BouncingScrollPhysics(),
               children: [
                 Text(
                   model.data.name,
@@ -89,6 +90,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Center(
                     child: AnimatedSmoothIndicator(
+                        effect: const ExpandingDotsEffect(
+                          activeDotColor: Colors.deepOrange,
+                          spacing: 5.0,
+
+
+                        ),
                         activeIndex: ShopAppcubit.get(context).value,
                         count: images.length),
                   ),

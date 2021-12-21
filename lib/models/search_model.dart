@@ -39,17 +39,6 @@ class Data {
     total = json['total'];
   }
 }
-
-// class FavoritesData {
-//   int? id;
-//   Product? product;
-//
-//   FavoritesData.fromJson(Map<String, dynamic> json) {
-//     id = json['id'];
-//     product = Product.fromJson(json['product']);
-//   }
-// }
-
 class SearchProduct {
   int? id;
   dynamic price;

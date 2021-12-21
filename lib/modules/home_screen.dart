@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/models/shop_category_model.dart';
 import 'package:shopapp/models/shopappmodel.dart';
+import 'package:shopapp/modules/produc_category_data_screen.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/cubit.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/status.dart';
 import 'package:shopapp/shared/constance/combonants.dart';
@@ -16,7 +17,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopAppcubit, ShopStatus>(
-      listener: (BuildContext context, state) {},
+      listener: (BuildContext context, state) {
+
+      },
       builder: (BuildContext context, Object? state) {
         var cubit = ShopAppcubit.get(context);
         return ConditionalBuilder(
@@ -76,7 +79,7 @@ Widget HomeData(ShopHomeModel? model, CategoryModel? categoryModel, context) =>
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) =>
-                  BuildCategoriesItm(categoryModel!.data!.data[index]),
+                  BuildCategoriesItm(categoryModel!.data!.data[index], context),
               separatorBuilder: (context, index) => const SizedBox(
                 width: 10,
               ),
@@ -109,10 +112,9 @@ Widget HomeData(ShopHomeModel? model, CategoryModel? categoryModel, context) =>
               crossAxisCount: 2,
               children: List.generate(
                   model.data!.products.length,
-                  (index) =>
-                      InkWell(
+                  (index) => InkWell(
                           onTap: (){
-                            Navegato(context, ProductDetails(model.data!.products[index].id));
+                            PushToNextScreen(context, ProductDetails(model.data!.products[index].id));
                           },
                           child: HomeProductsItems(model.data!.products[index], context))),
             ),
@@ -121,47 +123,92 @@ Widget HomeData(ShopHomeModel? model, CategoryModel? categoryModel, context) =>
       ),
     );
 
-Widget BuildCategoriesItm(Data? data) => Padding(
-      padding: const EdgeInsetsDirectional.only(start: 20.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              child: Image(
-                image: NetworkImage('${data!.image}'),
-                fit: BoxFit.cover,
-                width: 100.0,
-                height: 100.0,
-              ),
-            ),
-            Container(
-              width: 100.0,
-              color: Colors.black.withOpacity(
-                .8,
-              ),
-              child: Text(
-                '${data.name}',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
+Widget BuildCategoriesItm(Data? data, context) => InkWell(
+    onTap: (){
+      ShopAppcubit.get(context).getCategoriesDetailData(data!.id);
+      PushToNextScreen(context, CategoryProductsScreen(data.name));
+    },
+  child: Padding(
+        padding: const EdgeInsetsDirectional.only(start: 20.0),
+
+        child: Container(
+
+          decoration: BoxDecoration(
+
+            borderRadius: BorderRadius.circular(15.0),
+
+          ),
+
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+
+          child: Stack(
+
+            alignment: Alignment.bottomCenter,
+
+            children: [
+
+              Container(
+
+                decoration: BoxDecoration(
+
+                  borderRadius: BorderRadius.circular(30.0),
+
                 ),
+
+                child: Image(
+
+                  image: NetworkImage('${data!.image}'),
+
+                  fit: BoxFit.cover,
+
+                  width: 100.0,
+
+                  height: 100.0,
+
+                ),
+
               ),
-            ),
-          ],
+
+              Container(
+
+                width: 100.0,
+
+                color: Colors.black.withOpacity(
+
+                  .8,
+
+                ),
+
+                child: Text(
+
+                  '${data.name}',
+
+                  maxLines: 1,
+
+                  overflow: TextOverflow.ellipsis,
+
+                  textAlign: TextAlign.center,
+
+                  style: const TextStyle(
+
+                    fontSize: 20.0,
+
+                    color: Colors.white,
+
+                  ),
+
+                ),
+
+              ),
+
+            ],
+
+          ),
+
         ),
+
       ),
-    );
+);
 
 Widget HomeProductsItems(ProductsData model, context) => Container(
   color: Colors.white,
@@ -226,8 +273,8 @@ Widget HomeProductsItems(ProductsData model, context) => Container(
                 InkWell(
                   onTap: ()
                   {
-                    print(model.id);
                     ShopAppcubit.get(context).changeFavorites(model.id);
+                    print(model.id);
                   },
                   child: Icon(
                     ShopAppcubit.get(context).favorite[model.id] == true

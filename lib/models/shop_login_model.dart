@@ -16,7 +16,6 @@ class Userdata {
   String? phone;
   String? image;
   int? points;
-  int? credit;
   String? token;
   Userdata.formjson(Map<String, dynamic> json) {
     id = json['id'];
@@ -25,7 +24,6 @@ class Userdata {
     phone = json['phone'];
     image = json['image'];
     points = json['points'];
-    credit = json['credit'];
     token = json['token'];
   }
 }
