@@ -1,42 +1,18 @@
-state is ShopLodingGetHomProductDataStatus ? const Center(child: CircularProgressIndicator()) :Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children:
-              [
-                const Text(
-                  'name' ,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style:  TextStyle(
-                    fontSize: 25.0 ,
-                    fontWeight: FontWeight.bold ,
-                    fontStyle: FontStyle.italic ,
-                  ),
-                ),
-                Container(
-                  height: 200.0,
-                  width: double.infinity,
-                  child: PageView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    controller: Pagecontrolar2,
-                    itemBuilder: (context, index) =>  Image(
-                      image: NetworkImage(model!.images[index]),),
-                    itemCount:1,
-                  ),
-                ),
-                const SizedBox(height: 22.0,),
-                SmoothPageIndicator(
-                  controller: Pagecontrolar2,
-                  count: 1 ,
-                  effect: const ExpandingDotsEffect(
-                    activeDotColor: Colors.deepOrange,
-                    spacing: 5.0,
-                    expansionFactor: 4,
-                    dotHeight: 10.0,
-                    dotWidth: 10.0,
-                  ),
-                ),
+  dynamic onBoardingFinish = false;
+  onBoardingFinish = cachHelper.getData('ShowOnBoard');
+  token = cachHelper.getData('token');
+  late Widget start;
+  if(onBoardingFinish != null){
+    if(token == null){
+      start = ShopLoginScreen();
+    }else{
+      start = const HomeScreen();
+    }
+  }else {
+    start = OnBording_Screen();
+  }
 
-              ],
-            ),
-          ) ,
+  ////////
+
+    Widget startApp;
+    MyApp(this.startApp);

@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopapp/layout/shop_app_layout.dart';
-import 'package:shopapp/modules/home_screen.dart';
 import 'package:shopapp/modules/login_screen.dart';
 import 'package:shopapp/modules/on_bording_screen.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/cubit.dart';
@@ -12,6 +10,7 @@ import 'package:shopapp/shared/AppBloc/shoplogin_bloc/cubit.dart';
 import 'package:shopapp/shared/constance/cons.dart';
 import 'package:shopapp/shared/remote/catch.helper.dart';
 import 'package:shopapp/shared/remote/dio.helper.dart';
+import 'layout/shop_app_layout.dart';
 
 
 Future<void> main() async {
@@ -27,7 +26,7 @@ Future<void> main() async {
     if(token == null){
       start = ShopLoginScreen();
     }else{
-      start = const HomeScreen();
+      start = const ShopAppLayout();
     }
   }else {
     start = OnBording_Screen();
