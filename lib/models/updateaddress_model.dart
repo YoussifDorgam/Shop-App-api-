@@ -1,8 +1,7 @@
 class UpdateAddressModel {
   late bool status;
   String? message;
-  AddressData ?data;
-
+  AddressData? data;
 
   UpdateAddressModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -20,7 +19,6 @@ class AddressData {
   String? notes;
   dynamic latitude;
   dynamic longitude;
-
 
   AddressData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

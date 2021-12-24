@@ -2,7 +2,6 @@ class FAQsModel {
   bool? status;
   FAQsPageData? data;
 
-
   FAQsModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     data = json['data'] != null ? FAQsPageData.fromJson(json['data']) : null;
@@ -15,12 +14,11 @@ class FAQsPageData {
   String? firstPageUrl;
   int? from;
   int? lastPage;
-  String ?lastPageUrl;
-  String ?path;
+  String? lastPageUrl;
+  String? path;
   int? perPage;
   int? to;
   int? total;
-
 
   FAQsPageData.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
@@ -44,8 +42,7 @@ class FAQsPageData {
 class FAQsData {
   int? id;
   String? question;
-  String ?answer;
-
+  String? answer;
 
   FAQsData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

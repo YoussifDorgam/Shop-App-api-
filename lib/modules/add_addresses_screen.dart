@@ -109,7 +109,6 @@ class UpdateAddressScreen extends StatelessWidget {
                       const SizedBox(
                         height: 30,
                       ),
-
                       const Text(
                         'Name',
                         style: TextStyle(fontSize: 15),
@@ -215,37 +214,6 @@ class UpdateAddressScreen extends StatelessWidget {
                       const SizedBox(
                         height: 60,
                       ),
-
-                      // SizedBox(
-                      //   height: 50,
-                      //   width: double.infinity,
-                      //   child: ElevatedButton(
-                      //       onPressed: () {
-                      //         if(addressFormKey.currentState!.validate())
-                      //         {
-                      //           if(isEdit)
-                      //           {
-                      //             ShopAppcubit.get(context).updateAddress(
-                      //                 addressId: addressId,
-                      //                 name: nameControl.text,
-                      //                 city: cityControl.text,
-                      //                 region: regionControl.text,
-                      //                 details: detailsControl.text,
-                      //                 notes: notesControl.text);
-                      //           }
-                      //           else {
-                      //             ShopAppcubit.get(context).PostAddressesData(
-                      //                 name: nameControl.text,
-                      //                 city: cityControl.text,
-                      //                 region: regionControl.text,
-                      //                 details: detailsControl.text,
-                      //                 notes: notesControl.text);
-                      //           }
-                      //         }
-                      //       },
-                      //       child: const Text('SAVE ADDRESS',style: TextStyle(color: Colors.white,fontSize: 15),)
-                      //   ),
-                      // ),
                     ]),
               ),
             ),

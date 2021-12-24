@@ -7,14 +7,14 @@ import 'package:shopapp/network/end_points/end_points.dart';
 import 'package:shopapp/shared/AppBloc/register.screen/status.dart';
 import 'package:shopapp/shared/remote/dio.helper.dart';
 
-
 class ShopAppRegistercubit extends Cubit<ShopRegisterStatus> {
   ShopAppRegistercubit() : super(ShopRegisterInitialStatus());
 
   static ShopAppRegistercubit get(context) => BlocProvider.of(context);
 
- /// method post&Register Screen
+  /// method post&Register Screen
   ShopLoginModel? UserRegisterModel;
+
   void UserRegister({
     required String email,
     required String password,
@@ -26,7 +26,7 @@ class ShopAppRegistercubit extends Cubit<ShopRegisterStatus> {
       'email': email,
       'password': password,
       'name': name,
-      'phone':phone,
+      'phone': phone,
     }).then((value) {
       UserRegisterModel = ShopLoginModel.formjson(value.data);
       emit(ShopRegisterSuccessStatus(UserRegisterModel!));
@@ -37,7 +37,8 @@ class ShopAppRegistercubit extends Cubit<ShopRegisterStatus> {
     });
   }
 
-  IconData iconData = Icons.visibility_outlined ;
+  IconData iconData = Icons.visibility_outlined;
+
   bool isoscureShow = true;
 
   void eyeisShow() {

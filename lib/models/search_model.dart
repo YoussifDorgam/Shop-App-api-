@@ -2,30 +2,32 @@ class SearchModel {
   late bool status;
   late Data data;
 
-  SearchModel.fromJson(Map<String, dynamic> json)
-  {
+  SearchModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     data = Data.fromJson(json['data']);
   }
 }
+
 class Data {
   int? currentPage;
   late List<SearchProduct> data;
   String? firstPageUrl;
-  int ?from;
-  int ?lastPage;
+  int? from;
+  int? lastPage;
   String? lastPageUrl;
   Null nextPageUrl;
   String? path;
-  int ?perPage;
+  int? perPage;
   Null prevPageUrl;
-  int ?to;
-  int ?total;
+  int? to;
+  int? total;
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
-    data =  [];
-    json['data'].forEach((element){data.add(SearchProduct.fromJson(element));});
+    data = [];
+    json['data'].forEach((element) {
+      data.add(SearchProduct.fromJson(element));
+    });
     // List.generate(data!.length, (index) => FavoritesData.fromJson(json['data']));
     firstPageUrl = json['first_page_url'];
     from = json['from'];
@@ -39,14 +41,15 @@ class Data {
     total = json['total'];
   }
 }
+
 class SearchProduct {
   int? id;
   dynamic price;
   dynamic oldPrice;
-  int ?discount;
+  int? discount;
   String? image;
-  String ?name;
-  String ?description;
+  String? name;
+  String? description;
 
   SearchProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -57,6 +60,4 @@ class SearchProduct {
     name = json['name'];
     description = json['description'];
   }
-
-
 }

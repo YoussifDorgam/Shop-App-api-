@@ -7,6 +7,7 @@ import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/cubit.dart';
 import 'package:shopapp/shared/AppBloc/Appcubit&&%D9%8DSearchCubit/status.dart';
 import 'package:shopapp/shared/constance/combonants.dart';
 
+
 class ShopAppLayout extends StatelessWidget {
   const ShopAppLayout({Key? key}) : super(key: key);
 
@@ -50,7 +51,8 @@ class ShopAppLayout extends StatelessWidget {
               ),
             ],
           ),
-          bottomNavigationBar: CurvedNavigationBar(buttonBackgroundColor: Colors.white,
+          bottomNavigationBar: CurvedNavigationBar(
+            buttonBackgroundColor: Colors.white,
             height: 60.0,
             color: cubit.color!,
             backgroundColor: Colors.transparent,

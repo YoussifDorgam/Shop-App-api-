@@ -6,7 +6,6 @@ class ProductDetailsModel {
     status = json['status'];
     data = (json['data'] != null ? new Data.fromJson(json['data']) : null)!;
   }
-
 }
 
 class Data {
@@ -33,5 +32,4 @@ class Data {
     inCart = json['in_cart'];
     images = json['images'].cast<String>();
   }
-
 }

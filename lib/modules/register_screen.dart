@@ -9,6 +9,7 @@ import 'package:shopapp/shared/AppBloc/register.screen/status.dart';
 import 'package:shopapp/shared/constance/combonants.dart';
 import 'package:shopapp/shared/constance/cons.dart';
 import 'package:shopapp/shared/remote/catch.helper.dart';
+
 class RefisterScreen extends StatelessWidget {
   var PasswordConerolar = TextEditingController();
   var NamedConerolar = TextEditingController();
@@ -51,7 +52,8 @@ class RefisterScreen extends StatelessWidget {
               ShopAppcubit.get(context).GetFavData();
               ShopAppcubit.get(context).GetCartData();
               ShopAppcubit.get(context).getAddresses();
-
+              ShopAppcubit.get(context).getOrders();
+              ShopAppcubit.get(context).getOrdersDetails();
             }).catchError((error) {
               print(error.toString());
             });
@@ -86,10 +88,13 @@ class RefisterScreen extends StatelessWidget {
               ],
             ),
             leading: InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pop(context);
                 },
-                child: const Icon(Icons.arrow_back_ios ,color:Colors.black,)),
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
+                )),
             elevation: 1.0,
             backgroundColor: Colors.white,
           ),
@@ -171,8 +176,7 @@ class RefisterScreen extends StatelessWidget {
                         prefix: Icons.lock,
                         sufix: cubit.iconData,
                         obscureText: cubit.isoscureShow,
-                        suffixPressed: ()
-                        {
+                        suffixPressed: () {
                           cubit.eyeisShow();
                         },
                         validator: (value) {
@@ -199,19 +203,21 @@ class RefisterScreen extends StatelessWidget {
                         height: 20.0,
                       ),
                       bottom(
-                          width: double.infinity,
-                          color: Colors.deepOrange,
-                          onpressed: () {
-                            if (Formkey.currentState!.validate()) {
-                              cubit.UserRegister(
-                                email: EmailConerolar.text,
-                                password: PasswordConerolar.text,
-                                name: NamedConerolar.text,
-                                phone: PhoneConerolar.text,
-                              );
-                            }
-                          },
-                          text: 'REGISTER'),
+                        width: double.infinity,
+                        height: 50,
+                        color: Colors.deepOrange,
+                        onpressed: () {
+                          if (Formkey.currentState!.validate()) {
+                            cubit.UserRegister(
+                              email: EmailConerolar.text,
+                              password: PasswordConerolar.text,
+                              name: NamedConerolar.text,
+                              phone: PhoneConerolar.text,
+                            );
+                          }
+                        },
+                        text: 'REGISTER',
+                      ),
                       const SizedBox(
                         height: 20.0,
                       ),

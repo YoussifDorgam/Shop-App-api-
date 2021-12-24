@@ -10,8 +10,8 @@ import 'package:shopapp/shared/AppBloc/shoplogin_bloc/cubit.dart';
 import 'package:shopapp/shared/constance/cons.dart';
 import 'package:shopapp/shared/remote/catch.helper.dart';
 import 'package:shopapp/shared/remote/dio.helper.dart';
-import 'layout/shop_app_layout.dart';
 
+import 'layout/shop_app_layout.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,37 +21,50 @@ Future<void> main() async {
   dynamic onBoardingFinish = false;
   onBoardingFinish = cachHelper.getData('ShowOnBoard');
   token = cachHelper.getData('token');
+  print(token);
   late Widget start;
-  if(onBoardingFinish != null){
-    if(token == null){
+  if (onBoardingFinish != null) {
+    if (token == null) {
       start = ShopLoginScreen();
-    }else{
+    } else {
       start = const ShopAppLayout();
     }
-  }else {
+  } else {
     start = OnBording_Screen();
   }
 
   runApp(MyApp(start));
 }
+// BlocOverrides.runZoned(
+// () {
+// // Use cubits...
+// },
+// blocObserver: MyBlocObserver(),
+// );
 
 class MyApp extends StatelessWidget {
   Widget startApp;
+
   MyApp(this.startApp);
+
   // his widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers:
-      [
-        BlocProvider(create:  (context) => ShopAppLogincubit()),
-        BlocProvider(create:  (context) => ShopAppcubit()..gethomedata()..GetCategoryModel()),
-        BlocProvider(create:  (context) => ShopAppRegistercubit()),
+      providers: [
+        BlocProvider(create: (context) => ShopAppLogincubit()),
+        BlocProvider(
+            create: (context) => ShopAppcubit()
+              ..gethomedata()
+              ..getAddresses()
+              ..GetCategoryModel()
+              ..getOrders()),
+        BlocProvider(create: (context) => ShopAppRegistercubit()),
       ],
       child: MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.deepOrange,
-          scaffoldBackgroundColor: Colors.white ,
+          scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
         home: startApp,

@@ -1,10 +1,8 @@
-class ChangeFavouriteModel
-{
+class ChangeFavouriteModel {
   bool? status;
-  String? message ;
+  String? message;
 
-  ChangeFavouriteModel.fromjson(Map<String , dynamic> json)
-  {
+  ChangeFavouriteModel.fromjson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
   }

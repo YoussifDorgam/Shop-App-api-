@@ -2,31 +2,28 @@ class AddressModel {
   bool? status;
   AddressPage? data;
 
-
   AddressModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? AddressPage.fromJson(json['data']): null;
+    data = json['data'] != null ? AddressPage.fromJson(json['data']) : null;
   }
-
 }
 
 class AddressPage {
   int? currentPage;
   List<AddressData>? data;
-  String ?firstPageUrl;
+  String? firstPageUrl;
   int? from;
   int? lastPage;
-  String ?lastPageUrl;
+  String? lastPageUrl;
   String? path;
-  int ?perPage;
+  int? perPage;
   int? to;
-  int ?total;
-
+  int? total;
 
   AddressPage.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
     if (json['data'] != null) {
-      data =[];
+      data = [];
       json['data'].forEach((v) {
         data?.add(new AddressData.fromJson(v));
       });
@@ -40,19 +37,17 @@ class AddressPage {
     to = json['to'];
     total = json['total'];
   }
-
 }
 
 class AddressData {
-  int? id;
+  late int id;
   String? name;
   String? city;
   String? region;
   String? details;
   String? notes;
   double? latitude;
-  double ?longitude;
-
+  double? longitude;
 
   AddressData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

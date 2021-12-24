@@ -2,14 +2,16 @@ class GetCartModel {
   late bool status;
   String? message;
   late Data data;
+
   GetCartModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     data = (json['data'] != null ? new Data.fromJson(json['data']) : null)!;
   }
 }
+
 class Data {
-  List<CartItems> cartItems =[];
+  List<CartItems> cartItems = [];
   late final subTotal;
   late final total;
 
@@ -23,17 +25,21 @@ class Data {
     total = json['total'];
   }
 }
+
 class CartItems {
   late final id;
   late final quantity;
   late Product product;
+
   CartItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     quantity = json['quantity'];
-    product = (json['product'] != null ? new Product.fromJson(json['product']) : null)!;
+    product = (json['product'] != null
+        ? new Product.fromJson(json['product'])
+        : null)!;
   }
-
 }
+
 class Product {
   late final id;
   late final price;
@@ -41,7 +47,6 @@ class Product {
   late dynamic discount;
   late String image;
   late String name;
-
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,5 +56,4 @@ class Product {
     image = json['image'];
     name = json['name'];
   }
-
 }

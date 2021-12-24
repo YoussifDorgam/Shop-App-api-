@@ -12,19 +12,16 @@ class SearchCubit extends Cubit<SearchStatus> {
   static SearchCubit get(context) => BlocProvider.of(context);
 
   SearchModel? searchModel;
-  void getSearchData(String searchText){
+
+  void getSearchData(String searchText) {
     emit(ShopLodingSearchStatus());
-    Diohelper.PostData(
-        url: productssearch,
-        Token: token,
-        data: {
-          'text':'$searchText',
-        }
-    ).then((value){
+    Diohelper.PostData(url: productssearch, Token: token, data: {
+      'text': '$searchText',
+    }).then((value) {
       searchModel = SearchModel.fromJson(value.data);
-      print('Search '+searchModel!.status.toString());
+      print('Search ' + searchModel!.status.toString());
       emit(ShopSuccessSearchStatus(searchModel!));
-    }).catchError((error){
+    }).catchError((error) {
       emit(ShopErrorSearchStatus());
       print(error.toString());
     });

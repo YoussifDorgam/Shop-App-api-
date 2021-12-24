@@ -1,10 +1,8 @@
-class ChangeCartModel
-{
+class ChangeCartModel {
   bool? status;
-  String? message ;
+  String? message;
 
-  ChangeCartModel.fromjson(Map<String , dynamic> json)
-  {
+  ChangeCartModel.fromjson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
   }

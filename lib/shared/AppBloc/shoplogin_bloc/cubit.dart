@@ -7,7 +7,6 @@ import 'package:shopapp/network/end_points/end_points.dart';
 import 'package:shopapp/shared/AppBloc/shoplogin_bloc/status.dart';
 import 'package:shopapp/shared/remote/dio.helper.dart';
 
-
 class ShopAppLogincubit extends Cubit<ShopLoginStatus> {
   ShopAppLogincubit() : super(ShopLoginInitialStatus());
   ShopLoginModel? UserModel;
@@ -32,7 +31,8 @@ class ShopAppLogincubit extends Cubit<ShopLoginStatus> {
     });
   }
 
-  IconData iconData =Icons.visibility_outlined ;
+  IconData iconData = Icons.visibility_outlined;
+
   bool isoscureShow = true;
 
   void eyeisShow() {

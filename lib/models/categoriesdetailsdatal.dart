@@ -1,31 +1,33 @@
-class getfavoyritedata {
+class CategoryDetailModel {
   bool? status;
-  bool? message;
-  Data? data;
+  late Data data;
 
-  getfavoyritedata.fromJson(Map<String, dynamic> json) {
+  CategoryDetailModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    message = json['message'];
-    data = (json['data'] != null ? Data.fromJson(json['data']) : null);
+    data = Data.fromJson(json['data']);
   }
 }
 
 class Data {
   int? currentPage;
-  List<FavouriteData> data = [];
+  late List<Categorydata> productData;
   String? firstPageUrl;
   int? from;
   int? lastPage;
   String? lastPageUrl;
-  String? nextPageUrl;
+  var nextPageUrl;
   String? path;
   int? perPage;
-  String? prevPageUrl;
+  var prevPageUrl;
   int? to;
   int? total;
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
+    productData = [];
+    json['data'].forEach((element) {
+      productData.add(Categorydata.fromJson(element));
+    });
     firstPageUrl = json['first_page_url'];
     from = json['from'];
     lastPage = json['last_page'];
@@ -36,33 +38,22 @@ class Data {
     prevPageUrl = json['prev_page_url'];
     to = json['to'];
     total = json['total'];
-    json['data'].forEach((element) {
-      data.add(FavouriteData.fromJson(element));
-    });
   }
 }
 
-class FavouriteData {
+class Categorydata {
   int? id;
-  Product? product;
-
-  FavouriteData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    product =
-        (json['product'] != null ? Product.fromJson(json['product']) : null)!;
-  }
-}
-
-class Product {
-  late int id;
   dynamic price;
   dynamic oldPrice;
   dynamic discount;
   String? image;
   String? name;
   String? description;
+  List<String>? images;
+  bool? inFavorites;
+  bool? inCart;
 
-  Product.fromJson(Map<String, dynamic> json) {
+  Categorydata.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     price = json['price'];
     oldPrice = json['old_price'];
@@ -70,5 +61,8 @@ class Product {
     image = json['image'];
     name = json['name'];
     description = json['description'];
+    images = json['images'].cast<String>();
+    inFavorites = json['in_favorites'];
+    inCart = json['in_cart'];
   }
 }

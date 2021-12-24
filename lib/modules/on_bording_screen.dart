@@ -4,24 +4,23 @@ import 'package:shopapp/modules/login_screen.dart';
 import 'package:shopapp/shared/constance/combonants.dart';
 import 'package:shopapp/shared/remote/catch.helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 List<onbordModel> screens = [
   onbordModel(
       title: 'Explore',
-      body: 'Choose What ever the Product you wish for with the easiest way possible using Salla',
+      body:
+          'Choose What ever the Product you wish for with the easiest way possible using Salla',
       image: 'assets/images/image1.gif'),
   onbordModel(
-      body: 'Yor Order will be shipped to you as fast as possible by our carrier',
-      title: 'Shipping' ,
-      image: 'assets/images/image2.gif'
-  ),
+      body:
+          'Yor Order will be shipped to you as fast as possible by our carrier',
+      title: 'Shipping',
+      image: 'assets/images/image2.gif'),
   onbordModel(
       body: 'Pay with the safest way possible either by cash or credit cards',
-      title: 'Make the Payment' ,
-      image: 'assets/images/image3.gif'
-
-  ),
+      title: 'Make the Payment',
+      image: 'assets/images/image3.gif'),
 ];
-
 
 class OnBording_Screen extends StatefulWidget {
   @override
@@ -32,6 +31,7 @@ class _OnBording_ScreenState extends State<OnBording_Screen> {
   var Pagecontrolar = PageController();
 
   bool islast = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,10 +41,9 @@ class _OnBording_ScreenState extends State<OnBording_Screen> {
         actions: [
           TextButton(
               onPressed: () {
-                cachHelper.Savedataa(key: 'ShowOnBoard', value: false).then((value)
-                {
-                  if(value)
-                  {
+                cachHelper.Savedataa(key: 'ShowOnBoard', value: false)
+                    .then((value) {
+                  if (value) {
                     print(value);
                     NavegatandFinish(context, ShopLoginScreen());
                   }
@@ -100,10 +99,9 @@ class _OnBording_ScreenState extends State<OnBording_Screen> {
                 FloatingActionButton(
                   onPressed: () {
                     if (islast) {
-                      cachHelper.Savedataa(key: 'ShowOnBoard', value: false).then((value)
-                      {
-                        if(value)
-                        {
+                      cachHelper.Savedataa(key: 'ShowOnBoard', value: false)
+                          .then((value) {
+                        if (value) {
                           print(value);
                           NavegatandFinish(context, ShopLoginScreen());
                         }

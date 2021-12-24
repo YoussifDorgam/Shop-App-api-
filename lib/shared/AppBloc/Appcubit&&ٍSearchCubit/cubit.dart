@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopapp/models/add_order_data.dart';
+import 'package:shopapp/models/categoriesdetailsdatal.dart';
 import 'package:shopapp/models/change_cart_items.dart';
 import 'package:shopapp/models/change_favourite_model.dart';
 import 'package:shopapp/models/faqs_model.dart';
@@ -90,7 +92,6 @@ class ShopAppcubit extends Cubit<ShopStatus> {
           element.id: element.infavorites,
         });
       });
-
       shopHomeModel!.data!.products.forEach((element) {
         InCart.addAll({
           element.id: element.Incart,
@@ -107,6 +108,22 @@ class ShopAppcubit extends Cubit<ShopStatus> {
     });
   }
 
+  // getProductData
+  ProductDetailsModel? productDetailsModel;
+
+  void getProductData(String id) {
+    productDetailsModel = null;
+    emit(ShopLodingGetHomProductDataStatus());
+    Diohelper.getdata(url: 'products/$id', Token: token).then((value) {
+      productDetailsModel = ProductDetailsModel.fromJson(value.data);
+      print('Product Detail ' + productDetailsModel!.status.toString());
+      emit(ShopSuccessGetHomProductDataStatus());
+    }).catchError((error) {
+      emit(ShopErrorGetHomProductDataStatus());
+      print(error.toString());
+    });
+  }
+
   // method get home Category Data
   CategoryModel? categoryModel;
 
@@ -117,6 +134,7 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       emit(ShopCategoriesSuccessStatus());
     }).catchError((error) {
       print(error.toString());
+      print(error);
       emit(ShopCategoriesErrorStatus());
     });
   }
@@ -225,27 +243,15 @@ class ShopAppcubit extends Cubit<ShopStatus> {
     });
   }
 
-  // get product details
-  ProductDetailsModel? productDetailsModel;
-  void getProductData(String id) {
-    emit(ShopLodingGetHomProductDataStatus());
-    Diohelper.getdata(url: PRODUCT + id, Token: token).then((value) {
-      productDetailsModel = ProductDetailsModel.fromJson(value.data);
-      print('Product Detail ' + productDetailsModel!.status.toString());
-      emit(ShopSuccessGetHomProductDataStatus());
-    }).catchError((error) {
-      emit(ShopErrorGetHomProductDataStatus());
-      print(error.toString());
-    });
-  }
-
   // changeVal
   int value = 0;
+
   void changeVal(val) {
     value = val;
     emit(ChangeIndicatorState());
   }
-  ///////////////////////////
+
+  // changeCart
   ChangeCartModel? changeCartModel;
 
   void changeCart(int productId) {
@@ -327,7 +333,7 @@ class ShopAppcubit extends Cubit<ShopStatus> {
     });
   }
 
-  // POST Adresses
+  /// POST Adresses
   AddAddressModel? addAddressModel;
 
   void PostAddressesData({
@@ -421,6 +427,7 @@ class ShopAppcubit extends Cubit<ShopStatus> {
 
   // deleteAddress
   UpdateAddressModel? deleteAddressModel;
+
   void deleteAddress({required addressId}) {
     emit(ShopLodingDeleteAddreesesStatus());
     Diohelper.deleteData(
@@ -436,39 +443,125 @@ class ShopAppcubit extends Cubit<ShopStatus> {
       print(error.toString());
     });
   }
+
   // FAQs Data
-  late FAQsModel  faqsModel;
+  late FAQsModel faqsModel;
+
   void getFAQsData() {
     emit(FAQsLoadingState());
     Diohelper.getdata(
       url: 'faqs',
-    ).then((value){
+    ).then((value) {
       faqsModel = FAQsModel.fromJson(value.data);
-      print('Get FAQs '+ faqsModel.status.toString());
+      print('Get FAQs ' + faqsModel.status.toString());
       emit(FAQsSuccessState());
-    }).catchError((error){
+    }).catchError((error) {
       emit(FAQsErrorState());
       print(error.toString());
     });
   }
+
   // getCategoriesDetailData
-  void getCategoriesDetailData( int? categoryID ) {
+
+  CategoryDetailModel? categoriesDetailModel;
+
+  void getCategoriesDetailData(int? categoryID) {
     emit(CategoryDetailsLoadingState());
-    Diohelper.getdata(
-        url: CATEGORIES_DETAIL,
-        query: {
-          'category_id':'$categoryID',
-        }
-    ).then((value){
-      shopHomeModel = ShopHomeModel.fromjsom(value.data);
-      print('categories Detail '+shopHomeModel!.status.toString());
+    Diohelper.getdata(url: CATEGORIES_DETAIL, query: {
+      'category_id': '$categoryID',
+    }).then((value) {
+      categoriesDetailModel = CategoryDetailModel.fromJson(value.data);
+      print('categories Detail ' + categoriesDetailModel!.status.toString());
       emit(CategoryDetailsSuccessState());
-    }).catchError((error){
+    }).catchError((error) {
       emit(CategoryDetailsErrorState());
       print(error.toString());
     });
   }
 
+  /// Add Order
+  AddOrderModel? addOrderModel;
 
+  void AddOrder({required int AddressId, context}) {
+    emit(ShopLodingAddOrderStatus());
+    Diohelper.PostData(
+      url: Orders,
+      data: {
+        'address_id': AddressId,
+        'payment_method': 1,
+        'use_points': false,
+      },
+      Token: token,
+    ).then((value) {
+      addOrderModel = AddOrderModel.fromJson(value.data);
+      if (addOrderModel!.status) {
+        GetCartData();
+        getOrders();
+        emit(ShopSuccessAddOrderStatus(addOrderModel!));
+      } else {
+        GetCartData();
+        getOrders();
+      }
+    }).catchError((error) {
+      emit(ShopErrorAddOrderStatus());
+    });
+  }
 
+  // get Order
+  GetOrderModel? orderModel;
+
+  void getOrders() {
+    emit(GetOrdersLoadingState());
+    Diohelper.getdata(url: Orders, Token: token).then((orders) {
+      orderModel = GetOrderModel.fromJson(orders.data);
+      ordersDetails.clear();
+      ordersIds.clear();
+      orderModel!.data.data.forEach((element) {
+        ordersIds.add(element.id);
+      });
+      emit(GetOrdersSuccessState(orderModel!));
+      getOrdersDetails();
+    }).catchError((error) {
+      emit(GetOrdersErrorState(error));
+      print('Get Orders Error ${error.toString()}');
+    });
+  }
+
+  // getOrdersDetails
+  List<int> ordersIds = [];
+  OrderDetailsModel? orderItemDetails;
+  List<OrderDetailsModel> ordersDetails = [];
+
+  void getOrdersDetails() async {
+    emit(OrderDetailsLoadingState());
+    if (ordersIds.isNotEmpty) {
+      for (var id in ordersIds) {
+        await Diohelper.getdata(url: "$Orders/$id", Token: token)
+            .then((orderDetails) {
+          orderItemDetails = OrderDetailsModel.fromJson(orderDetails.data);
+          ordersDetails.add(orderItemDetails!);
+          emit(OrderDetailsSuccessState(orderItemDetails!));
+        }).catchError((error) {
+          emit(OrderDetailsErrorState(error));
+          print('Get Orders Details Error ${error.toString()}');
+          return;
+        });
+      }
+    }
+  }
+
+  // cancelOrder
+  CancelOrderModel? cancelOrderModel;
+
+  void cancelOrder({required int id}) {
+    emit(CancelOrderLoadingState());
+    Diohelper.getdata(url: "orders/$id/cancel", Token: token).then((value) {
+      cancelOrderModel = CancelOrderModel.fromJson(value.data);
+      getOrders();
+      emit(CancelOrderSuccessState(cancelOrderModel!));
+    }).catchError((error) {
+      print(error.toString());
+      emit(CancelOrderErrorState(error));
+    });
+  }
 }

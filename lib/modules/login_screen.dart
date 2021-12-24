@@ -34,7 +34,7 @@ class ShopLoginScreen extends StatelessWidget {
             cachHelper.Savedataa(
                     key: 'token', value: state.loginModel.data?.token)
                 .then((value) {
-              token = state.loginModel.data!.token! ;
+              token = state.loginModel.data!.token!;
               NavegatandFinish(context, ShopAppLayout());
               EmailControlar.clear();
               PasswordConerolar.clear();
@@ -45,8 +45,9 @@ class ShopLoginScreen extends StatelessWidget {
               ShopAppcubit.get(context).GetFavData();
               ShopAppcubit.get(context).GetCartData();
               ShopAppcubit.get(context).getAddresses();
-            }).catchError((error) {
-            });
+              ShopAppcubit.get(context).getOrders();
+              ShopAppcubit.get(context).getOrdersDetails();
+            }).catchError((error) {});
           } else {
             Fluttertoast.showToast(
                 msg: state.loginModel.message.toString(),
@@ -167,16 +168,18 @@ class ShopLoginScreen extends StatelessWidget {
                           ConditionalBuilder(
                             condition: state is! ShopLoginLodingStatus,
                             builder: (BuildContext context) => bottom(
-                                width: double.infinity,
-                                color: Colors.deepOrange,
-                                onpressed: () {
-                                  if (Formkey.currentState!.validate()) {
-                                    cubit.UserLogin(
-                                        email: EmailControlar.text,
-                                        password: PasswordConerolar.text);
-                                  }
-                                },
-                                text: 'Login'),
+                              width: double.infinity,
+                              height: 50,
+                              color: Colors.deepOrange,
+                              onpressed: () {
+                                if (Formkey.currentState!.validate()) {
+                                  cubit.UserLogin(
+                                      email: EmailControlar.text,
+                                      password: PasswordConerolar.text);
+                                }
+                              },
+                              text: 'Login',
+                            ),
                             fallback: (BuildContext context) => const Center(
                                 child: CircularProgressIndicator()),
                           ),
