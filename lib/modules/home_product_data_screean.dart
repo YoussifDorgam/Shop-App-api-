@@ -55,7 +55,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ),
                           ),
                         )
-                      : bodyBuild(
+                      : ShopAppcubit.get(context).productDetailsModel == null ?
+                      const Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30.0),
+                      child: LinearProgressIndicator(
+                        color: Colors.deepOrange,
+                        backgroundColor: Colors.black,
+                      ),
+                    ),
+                  )
+                      :bodyBuild(
                           context,
                           ShopAppcubit.get(context).productDetailsModel,
                         ),
